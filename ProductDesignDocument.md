@@ -6,6 +6,8 @@ Please provide two problem statements.  They are the same problem but take two p
  
 ## Customer
 ### Description
+Our customers are young people, specfically, are college students. 
+
 
 ### Customer Persona (with demopgraphics and sychographics)
 [See personas example](https://github.com/mschray/IPro497Sample/blob/main/Personas%20Example.md)
