@@ -33,12 +33,17 @@ Our customers are young people, specfically, are college students.
 ### Your Scenario #3
 
 ## Team Members
-Please create a table for the details below 
-
-Name	Location	Time zone offset from Chicago (Chicago is 0 offset)
+Please create a table for the details below		
 		
-		
-		
+| Name           | Email                             | Location    | Time Zone Offset  |
+| -------------- | --------------------------------- | ----------- | ----------------- |
+| Faith Busche   | fbusche@hawk.iit.edu              | Chicago     | 0 Offset          |
+| Sugyeong Hong  | shong30@hawk.iit.edu              | Chicago     | 0 Offset          |
+| Mario Carvalho | mnogueiramansurcarva@hawk.iit.edu | Chicago     | 0 Offset          |
+| Jiahao Zhang   | jzhang127@hawk.iit.edu            | Chicago     | 0 Offset          |
+| Fenglian Li    | fli27@hawk.iit.edu                | China       | 14 Offset         |
+| Ajay Kumar     | akumar81@hawk.iit.edu             | Chicago     | 0 Offset          |
+| Calvin Teng    | cteng2@hawk.iit.edu               | China       | 14 Offse          |
 
 ## Team Working Agreement
 - We will use Github and keep items updated as progress is made
