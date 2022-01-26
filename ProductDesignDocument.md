@@ -7,7 +7,7 @@
  
 ## Customer
 ### Description
-Our customers are young people, specfically, are college students. 
+Our customers are people, specfically, are college students. 
 
 
 ### Customer Persona (with demopgraphics and sychographics)
