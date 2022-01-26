@@ -1,8 +1,9 @@
 # IPro 497 – Product Design Document
 
 ## Problem statement
-Please provide two problem statements.  They are the same problem but take two passes at it.
 
+1. Job applicants, specifically college students applying to jobs for the first time, are able to easily keep track of the status of any jobs they have applied for or are going to apply for. In addition to each application’s status being automatically updated, there would be tools at the user’s disposal to help them learn more about the job application process.
+2. Job applicants, specifically college students applying to jobs for the first time, are able to easily keep track of the status of any jobs they have applied for or are going to apply for. In addition to each application’s status being manually updated by the user, there would be tools at the user’s disposal to help them learn more about the job application process.
  
 ## Customer
 ### Description
