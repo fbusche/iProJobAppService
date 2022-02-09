@@ -11,6 +11,14 @@
 ## Week 4 ##
 
 ## Week 5 ##
+- Make sure owning stories on the board
+- Please make sure the stories Acceptance criteria
+- Make sure work your doing is reflected on the board
+- Starting next week during faculty time each team member will present their work by answering the questions: 
+	- what I did since last time
+	- what I am planning this time
+  - what are the blockers (if any)
+
 
 ## Week 6 ##
 
