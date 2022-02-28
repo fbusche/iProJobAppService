@@ -19,6 +19,9 @@ COPY requirements.txt /backEndProject/
 # RUN apk add git postgresql-dev libressl-dev libffi-dev gcc musl-dev gcc python3-dev musl-dev zlib-dev jpeg-dev #--(5.2)
 
 RUN pip install --upgrade pip
+RUN pip install --upgrade pip wheel
+RUN apk add --no-cache gcc
+# RUN pip install backports.zoneinfo
 RUN pip install -r requirements.txt
 
 COPY . /backEndProject/
