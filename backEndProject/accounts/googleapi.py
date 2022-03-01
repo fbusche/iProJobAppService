@@ -1,14 +1,18 @@
 from http import client
 from pydoc import cli
+from django.forms import ValidationError
 import requests
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.views.generic import View
 from django.conf import settings
+from django.contrib.auth import login, logout
 
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
 
 from dj_rest_auth.registration.views import SocialLoginView
 
@@ -19,20 +23,26 @@ from json.decoder import JSONDecodeError
 
 from settings import credentials
 from .models import User
+from .serializers import UserSerializer
 
 BASE_URL = 'http://localhost:8000/'
-GOOGLE_CALLBACK_URI = BASE_URL + 'accounts/google/callback'
+GOOGLE_CALLBACK_URI = BASE_URL + 'accounts/google/callback/'
 client_id = credentials.GOOGLE_OAUTH2_CLIENT_ID
 client_secret = credentials.GOOGLE_OAUTH2_CLIENT_SECRET
 state = credentials.STATE
 
 def google_login(request):
-    scope = "https://www.googleapis.com/auth/userinfo.email"
-    return redirect(f"https://accounts.google.com/o/oauth2/v2/auth?client_id={client_id}&response_type=code&redirect_uri={GOOGLE_CALLBACK_URI}&scope={scope}")
+    scope = "https://www.googleapis.com/auth/userinfo.email " + "https://www.googleapis.com/auth/userinfo.profile"
+
+    google_auth_api = "https://accounts.google.com/o/oauth2/v2/auth"
+
+    return redirect(f"{google_auth_api}?client_id={client_id}&response_type=code&redirect_uri={GOOGLE_CALLBACK_URI}&scope={scope}")
 
 def google_callback(request):
+
     code = request.GET.get('code')
-    print('code: ' + code)
+
+    # get access token
     token_req = requests.post(
         f"https://oauth2.googleapis.com/token?client_id={client_id}&client_secret={client_secret}&code={code}&grant_type=authorization_code&redirect_uri={GOOGLE_CALLBACK_URI}&state={state}")
     token_req_json = token_req.json()
@@ -40,27 +50,40 @@ def google_callback(request):
     if error is not None:
         raise JSONDecodeError(error)
     access_token = token_req_json.get('access_token')
-    print('access_token: ' + access_token)
+    id_token = token_req_json.get('id_token')
 
+    # get user google email
     email_req = requests.get(
-        f"https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={access_token}")
+        # f"https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={access_token}")
+        f"https://www.googleapis.com/oauth2/v1/tokeninfo?id_token={id_token}")
     email_req_status = email_req.status_code
     if email_req_status != 200:
         return JsonResponse({'err_msg': 'failed to get email'}, status=status.HTTP_400_BAD_REQUEST)
     email_req_json = email_req.json()
+    print(email_req_json)
     email = email_req_json.get('email')
-    print('email: '+ email)
+    print(email)
 
+    # get user info
+    user_info_response = requests.get(
+        "https://www.googleapis.com/oauth2/v3/userinfo", 
+        params={
+            'access_token': access_token
+        })
+    if not user_info_response.ok:
+        raise ValidationError('Failed to obtain user info from Google.')
+    # print(user_info_response)
+    user_info = user_info_response.json()
+    # print(user_info)
+    
+    profile_data = {
+        'first_name': user_info.get('given_name', ''),
+        'last_name': user_info.get('family_name', '')
+    }
+    
     try:
         user = User.objects.get(email=email)
-        # 기존에 가입된 유저의 Provider가 google이 아니면 에러 발생, 맞으면 로그인
-        # 다른 SNS로 가입된 유저
-        # social_user = SocialAccount.objects.get(user=user)
-        # if social_user is None:
-        #     return JsonResponse({'err_msg': 'email exists but not social user'}, status=status.HTTP_400_BAD_REQUEST)
-        # if social_user.provider != 'google':
-        #     return JsonResponse({'err_msg': 'no matching social type'}, status=status.HTTP_400_BAD_REQUEST)
-        # 기존에 Google로 가입된 유저
+        # user already registered
         data = {'access_token': access_token, 'code': code}
         accept = requests.post(
             f"{BASE_URL}accounts/google/login/finish/", data=data)
@@ -69,43 +92,31 @@ def google_callback(request):
             return JsonResponse({'err_msg': 'failed to signin'}, status=accept_status)
         accept_json = accept.json()
         accept_json.pop('user', None)
-        return JsonResponse(accept_json)
+        login(request, user)
+        return JsonResponse(accept_json, {'user':UserSerializer(request.user).data})
     except:
-        # 기존에 가입된 유저가 없으면 새로 가입
+        # user not registered yet
         data = {'access_token': access_token, 'code': code}
-        print('data: ', access_token, code)
         accept = requests.post(
             f"{BASE_URL}accounts/google/login/finish/", data=data)
         accept_status = accept.status_code
-        print(accept_status)
         if accept_status != 200:
             return JsonResponse({'err_msg': 'failed to signup'}, status=accept_status)
         accept_json = accept.json()
         accept_json.pop('user', None)
-        return JsonResponse(accept_json)
+        user = User.objects.get(email=email)
+        user.first_name = profile_data['first_name']
+        user.last_name = profile_data['last_name']
+        user.save()
+        return JsonResponse({'accept_json':accept_json})
 
 class GoogleLogin(SocialLoginView):
     adapter_class = google_view.GoogleOAuth2Adapter
     callback_url = GOOGLE_CALLBACK_URI
     client_class = OAuth2Client
 
-# class GoogleLoginView(View):
-#     def get(self, request):
-#         google_access_code = request.GET.get('code', None)
+@permission_classes([IsAuthenticated])
+def signout(request):
+        logout(request)
+        return JsonResponse({'message':'successfully_signed_out'}, status=200)
 
-#         url = 'https://www.googleapis.com/oauth2/v4/token'
-
-#         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
-
-#         body = {
-#             'code' : f'{google_access_code}',
-#             'client_id' : credentials.GOOGLE_OAUTH2_CLIENT_ID,
-#             'client_secret' : credentials.GOOGLE_OAUTH2_CLIENT_SECRET,
-#             'redirect_uri' : 'http://localhost:8000',
-#             'grant_type' : 'authorization_code',
-#             }
-        
-#         google_response = requests.post(url, headers=headers, data=body)
-
-
-#         return HttpResponse(f'{google_response.text}')
