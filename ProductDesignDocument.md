@@ -138,6 +138,6 @@ Please create a table for the details below
 | 10 - Think, build, test, and demo for final	      |  Calvin           |
 | 11 - Think, build, test, and demo for final         | Sugyeong          |
 | 12 - Think, build, test, and demo for final         | Fenglian          |
-| 13 - Presentation dry run                           | Faith             |
+| 13 - Presentation dry run                           | Ajay              |
 | 14 - Presentation                                   | Mario             |
 
