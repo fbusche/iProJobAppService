@@ -1,0 +1,102 @@
+*{
+    /* initialize */
+    padding: 0;
+    margin: 0;
+    /* box model */
+    box-sizing: border-box;
+}
+
+body{
+    /* vertical + middle + background color */
+    display: flex;
+    font-family: Arial, Helvetica, sans-serif;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: turquoise;
+}
+
+.login{
+	padding:40px 60px;
+    border-radius: 5px;
+	background-color: rgba(0, 0, 0, 0.2);
+	box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+}
+
+h1{
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.btn{
+    margin-top: 10px;
+    cursor: pointer;
+    width: 100%;
+    background-color: teal;
+    padding: 7px;
+    border: 0;
+    font-size: 15px;
+    font-family: inherit;
+    color:aliceblue
+}
+
+.btn:focus{
+    outline: 0;
+}
+
+.btn:active{
+    transform: scale(0.98);
+}
+
+.text{
+    margin-top: 20px;
+    text-align: center;
+}
+
+.text a{
+    color: rgb(170, 218, 235);
+    text-decoration: none;
+}
+
+
+.login_box{
+    color: white;
+    width: 300px;
+    margin: 30px 0 20px;
+    /* top/left&right/button */
+    position: relative;
+}
+
+.login_box input{
+    background-color: transparent;
+    border: 0;
+    border-bottom: 2px solid white;
+    color: white;
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 15px;
+}
+
+.login_box input:focus{
+    outline: 0;
+    border-bottom-color: rgb(230, 230, 250);
+}
+
+.login_box label{
+    position: absolute;
+    left: 0;
+}
+
+.login_box input:focus + label,
+.login_box input:valid + label{
+    /* keep up when has inputs */
+    transform: translateY(-20px);
+    color: rgb(202, 202, 223);
+}
+
+img{
+    width: 50px;
+    height: 50px;
+    
+}
