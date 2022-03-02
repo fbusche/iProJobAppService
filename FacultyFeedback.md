@@ -27,6 +27,10 @@
 - Working being done needs to be on board!!
 
 ## Week 8 ##
+- Check out [Github flow](https://docs.github.com/en/get-started/quickstart/github-flow) 
+- Some CSS like bootstrap to boost your layout
+- Nice use of Django - frameworks can help accelerate the work
+- Front-end isn't being served from a web server - they are the file system.  Next steps are to get this connected to backend. Add stories to backlog to complete scenario #1 and tag them so you know what needs to done to complete scenario #1
 
 ## Week 9 ##
 
