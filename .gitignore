@@ -1,6 +1,6 @@
 # files
 .DS_Store
-/backEndProject/settings/client_secret.json
 
 #folders
 /env
+/node_modules
