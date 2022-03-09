@@ -1,15 +1,10 @@
-from http import client
-from pydoc import cli
 from django.forms import ValidationError
 import requests
 
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import redirect
-from django.views.generic import View
-from django.conf import settings
 from django.contrib.auth import login, logout
 
-from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
@@ -60,9 +55,8 @@ def google_callback(request):
     if email_req_status != 200:
         return JsonResponse({'err_msg': 'failed to get email'}, status=status.HTTP_400_BAD_REQUEST)
     email_req_json = email_req.json()
-    print(email_req_json)
     email = email_req_json.get('email')
-    print(email)
+    # print(email)
 
     # get user info
     user_info_response = requests.get(
@@ -108,6 +102,7 @@ def google_callback(request):
         user.first_name = profile_data['first_name']
         user.last_name = profile_data['last_name']
         user.save()
+        login(request, user)
         return JsonResponse({'accept_json':accept_json})
 
 class GoogleLogin(SocialLoginView):
