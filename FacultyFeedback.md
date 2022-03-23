@@ -42,6 +42,9 @@
 ## Week 10 ##
 
 ## Week 11 ##
+- We are not doing  innovation day (4/29) instead we are doing to Audience Choice Competition - pitch competition day on (4/22)
+- Team moved to new repo and has new board
+- Make sure you have an integrated product at the end (not two or three separate products)
 
 ## Week 12 ##
 
