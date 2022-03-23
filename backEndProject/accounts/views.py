@@ -1,10 +1,12 @@
 import json
 import os
+from tokenize import Token
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes, api_view
+from rest_framework.authtoken.models import Token
 
 from .serializers import UserSerializer
 
@@ -21,7 +23,8 @@ api_url = 'https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&incl
 def profile(request):
     user = request.user
     if request.method == 'GET':
-        return JsonResponse({'user': UserSerializer(user).data})
+        token = Token.objects.get(user=user)
+        return JsonResponse({'user': UserSerializer(user).data, 'token': token.key})
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])

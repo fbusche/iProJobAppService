@@ -2,16 +2,24 @@ import json
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 import requests
+from application import quickstart
 from settings import credentials
+from application.services import gmail_authenticate
+
 
 API_KEY = credentials.GOOGLE_API_KEY
 
+# def test(request):
+#     quickstart
+#     return Http
+
 
 def get_labels(request):
-    user = request.user
-    print(user.email)
-    # scope = 'https://www.googleapis.com/auth/gmail.modify'
-    scope = f"https://gmail.googleapis.com/gmail/v1/users/{user.email}/labels?key={API_KEY}"
-    rd = requests.get(scope).text
+    # get the Gmail API service
+    service = gmail_authenticate()
+    label_list = service.users().lables().list()
+    print(label_list)
+    # return JsonResponse({'label list':})
 
-    return HttpResponse(rd)
+def test_redirect(request):
+    HttpResponse('Success')
