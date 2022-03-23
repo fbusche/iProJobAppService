@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import User
+from .models import User, Label
 
 # Register your models here.
 
@@ -9,4 +9,8 @@ class UserAdmin(admin.ModelAdmin):
     list_filter = ('is_active',)
     search_fields = ('email', 'first_name', 'last_name')
 
+class LabelAdmin(admin.ModelAdmin):
+    list_display = ('user', 'name', 'label_type')
+
 admin.site.register(User, UserAdmin)
+admin.site.register(Label, LabelAdmin)
