@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Bar</title>
+    <link rel="stylesheet" href="navigation.css">
+    <!-- boxicon -->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+</head>
+
+<body>
+    <div class = "sidebar">
+        <div class = "logo_content">
+            <div class = "logo">
+                <i class='bx bx-search-alt'></i>
+                <div class = "logo_name">JobTrackerApp</div>
+            </div>
+            <i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class = "nav_list">
+            <li>
+                <a href="#">
+                    <i class='bx bx-home-alt-2'></i>
+                    <span class = "links_name">Homepage</span>
+                </a>
+                <span class = "tooltip">Homepage</span> 
+            </li>
+
+
+            <li>
+                <a href="#">
+                    <i class='bx bx-user'></i>
+                    <span class = "links_name">User</span>
+                </a>
+                <span class = "tooltip">User</span>
+            </li>
+
+
+            <li>
+                <a href="#">
+                    <i class='bx bx-chat'></i>
+                    <span class = "links_name">Message</span>
+                </a>
+                <span class = "tooltip">Message</span> 
+            </li>
+
+
+            <li>
+                <a href="#">
+                    <i class='bx bx-chalkboard'></i>
+                    <span class = "links_name">TrackerBoard</span>
+                </a>
+                 <span class = "tooltip">TrackerBoard</span>
+            </li>
+
+
+            <li>
+                <a href="#">
+                    <i class='bx bx-log-out'></i>
+                    <span class = "links_name">Sign out</span>
+                </a>
+                <span class = "tooltip">Sign out</span>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class='bx bx-cog'></i>
+                    <span class = "links_name">Settings</span>
+                </a>
+                <span class = "tooltip">Settings</span>
+            </li>
+
+
+            
+        </ul>
+    </div>
+
+    <div class="home_content">
+        <div class="text">
+            Home content
+        </div>
+    </div>
+
+    <script>
+        let btn = document.querySelector("#btn");
+        let sidebar = document.querySelector(".sidebar");
+
+        btn.onclick = function(){
+            sidebar.classList.toggle("active");
+        }
+
+        
+    </script>
+
+</body>
+</html>
