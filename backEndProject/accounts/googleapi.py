@@ -28,14 +28,12 @@ state = credentials.STATE
 
 def google_login(request):
     scope = "https://www.googleapis.com/auth/userinfo.email " + "https://www.googleapis.com/auth/userinfo.profile"
-
     google_auth_api = "https://accounts.google.com/o/oauth2/v2/auth"
 
     return redirect(f"{google_auth_api}?client_id={client_id}&response_type=code&redirect_uri={GOOGLE_CALLBACK_URI}&scope={scope}")
 
 def google_callback(request):
     code = request.GET.get('code')
-
     # get access token
     token_req = requests.post(
         f"https://oauth2.googleapis.com/token?client_id={client_id}&client_secret={client_secret}&code={code}&grant_type=authorization_code&redirect_uri={GOOGLE_CALLBACK_URI}&state={state}")
@@ -44,7 +42,7 @@ def google_callback(request):
     if error is not None:
         raise JSONDecodeError(error)
     access_token = token_req_json.get('access_token')
-    print(f'access toekn: {access_token}')
+    # print(f'access toekn: {access_token}')
     id_token = token_req_json.get('id_token')
 
     # get user google email
