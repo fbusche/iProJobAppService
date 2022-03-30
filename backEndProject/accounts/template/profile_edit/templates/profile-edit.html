@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>profile-page</title>
+    <style>
+        .a2{
+           font-size: 20px; text-decoration:none;
+           
+        }
+        H3{
+            margin: 20px auto;
+            width: 400px;
+            height: 30px;
+            background-color: forestgreen;
+            text-align: center;
+            color: white;
+        }
+        .ix{float: left;}
+        .a3{
+            font-size: 20px;
+            margin-top: 60px;
+            margin-left: 10px;
+           
+        }
+
+        .JA{
+            font-size: 20px;
+            margin-left: 300px;
+            margin-top: 60px;
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            text-align: center;
+            float:left;
+            border: solid green;
+
+        }
+
+        .Int{
+            font-size: 20px;
+            margin-top: 60px;
+            margin-left: 150px;
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            text-align: center;
+            float:left;
+            border: solid green;
+
+        }
+        .JO{
+            font-size: 20px;
+            margin-top: 60px;
+            margin-left: 150px;
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            text-align: center;
+            float:left;
+            border: solid green;
+
+        }
+        
+        .upload{
+            margin-top: 40px;
+            margin-left: 20px;
+
+        }
+
+    
+
+    </style>
+</head>
+<body>
+  <form action="" method="post">
+     <div class="a2">
+         <a  href="./">return</a>
+    </div>
+    
+   <H3>Profile</H3>
+     <div class="ix"> <img src="https://img1.baidu.com/it/u=3092625331,3016860992&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500" alt="" title="picture" width="350" height="300"> </div>
+     
+
+     <div class="a3">
+        <p>
+            <label class="la1" >&nbsp &nbsp  &nbsp &nbsp  &nbsp Name: &nbsp </label><input type="text" name="Name" value="" size="30" maxlength="2000"/>
+            
+        </p>
+    
+        <p>
+            <label class="la2" >&nbsp  &nbsp  &nbsp &nbsp  &nbsp College: &nbsp </label><input type="text" name="College" value="" size="30" maxlength="2000"/>
+         </p>
+    
+         <p>
+            <label class="la3" >&nbsp  &nbsp  &nbsp &nbsp  &nbsp Email: &nbsp </label><input type="text" name="Email" value="" size="30" maxlength="2000"/>
+         </p>
+    
+         <p>
+            <label class="la4" >&nbsp  &nbsp  &nbsp &nbsp  &nbsp Year: &nbsp </label><input type="text" name="Year" value="" size="30" maxlength="2000"/>
+         </p>
+    
+         <p>
+            <label class="la5" >&nbsp  &nbsp  &nbsp &nbsp  &nbsp Age: &nbsp </label><input type="text" name="Age" value="" size="30" maxlength="2000"/>
+         </p>
+        
+         <p>
+            <label class="la6" >&nbsp  &nbsp  &nbsp &nbsp  &nbsp Address: &nbsp </label><input type="text" name="Address" value="" size="30" maxlength="2000"/>
+         </p>
+        
+
+    </div>
+
+    <div class="upload">
+        <label > &nbsp  &nbsp  &nbsp upload photo &nbsp  &nbsp</label><input type="file" value="" size="" maxlength=""/>
+    </div>
+      <input type="submit" value="Submit" size="" maxlength=""/>
+    <p class="JA">Jobs Applied: {{ jobsapplied }}</p>
+    <p class="Int">Interviews: {{ interviews }}</p>
+    <p class="JO">Job offers: {{ joboffers }}</p>
+  </form>
+</body>
+</html>

@@ -1,0 +1,1 @@
+INSERT INTO `mymodel_profile` (`id`, `Name`, `College`, `Email`, `Year`, `Age`, `Address`, `JobsApplied`, `Interviews`, `Joboffers`, `img`) VALUES (1, 'Peter', 'Chicago university', 'fli555555@gmail', 'third year', '21', 'Chicago downtown', '3', '2', '2', 'https://img1.baidu.com/it/u=3092625331,3016860992&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500');

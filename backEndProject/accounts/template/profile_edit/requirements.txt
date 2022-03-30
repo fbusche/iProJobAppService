@@ -1,0 +1,12 @@
+asgiref==3.5.0
+backports.zoneinfo==0.2.1
+certifi==2021.10.8
+cffi @ file:///C:/ci_310/cffi_1642682485096/work
+cryptography @ file:///C:/ci/cryptography_1639472366776/work
+Django==4.0.3
+mysqlclient==2.1.0
+pycparser @ file:///tmp/build/80754af9/pycparser_1636541352034/work
+PyMySQL @ file:///C:/ci/pymysql_1610482945113/work
+sqlparse==0.4.2
+tzdata==2022.1
+wincertstore==0.2
