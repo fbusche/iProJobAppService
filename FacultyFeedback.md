@@ -47,6 +47,12 @@
 - Make sure you have an integrated product at the end (not two or three separate products)
 
 ## Week 12 ##
+- Make sure activities for audience choice and various other deadlines I shared in email are represented on your board
+- Calvin #30 in progress
+- Fenglian #13  in progress
+- Jiahao finished #25 and #26  in progress
+- Mario #21  in progress
+- Sugueong - #31, #32, #15  in progress
 
 ## Week 13 ##
 
