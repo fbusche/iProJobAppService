@@ -6,5 +6,7 @@ urlpatterns = [
     path('addjob/', views.add_application),
     path('editjob/<int:id>/', views.edit_application),
     path('labels/', gmailapi.get_labels),
-    path('redirect/', gmailapi.test_redirect)
+    path('labels/add/', views.add_label),
+    path('labels/delete/<int:id>', views.delete_label),
+    path('notification/', gmailapi.gmail_push),
 ]

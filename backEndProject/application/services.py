@@ -25,7 +25,6 @@ def linkedin_job_scrape(url):
         'position': re.search('(?<= hiring ).*(?= in)', job_info).group(0),
         'location': re.search('(?<=in ).*(?= \|)', job_info).group(0)
     }
-    print((info_dic))
 
     return info_dic
 

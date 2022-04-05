@@ -16,6 +16,7 @@ class Application(models.Model):
     company = models.CharField(max_length=255)
     position = models.CharField(max_length=255)
     location = models.CharField(max_length=255) # should convert to PlainLocation Feild later
+    company_email = models.CharField(max_length=255, null=True, blank=True)
     date_created = models.DateField(auto_now_add=True)
     last_updated = models.DateField(auto_now=True)
     status = models.ForeignKey(Status, on_delete=models.PROTECT, null=True)

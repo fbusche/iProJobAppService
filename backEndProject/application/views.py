@@ -1,3 +1,5 @@
+import re
+
 from django.http import JsonResponse
 from django.shortcuts import render
 
@@ -6,9 +8,11 @@ from rest_framework.decorators import permission_classes, api_view
 from rest_framework.parsers import JSONParser
 
 from accounts.serializers import UserSerializer
+from accounts.models import Label
 from .models import Application, Status
 from .services import linkedin_job_scrape
 from .serializers import ApplicationSerializer
+from .gmailapi import get_labels
 
 # Create your views here.
 
@@ -56,6 +60,7 @@ def edit_application(request, id):
         status = data.get('status', None)
         job_post = data.get('job_post', None)
         note = data.get('note', None)
+        company_email = data.get('company_email', None)
 
         if company != None:
             application.company = company
@@ -69,10 +74,46 @@ def edit_application(request, id):
             application.job_post = job_post
         if note != None:
             application.note = note
+        if company_email != None:
+            application.company_email = company_email
+            company = re.search('(?<=@).*(?=\.)', company_email).group(0)
+            user.senders.add(company)
+            user.save()
         application.save()
 
         return JsonResponse({'application':ApplicationSerializer(application).data, 'message':'Succesfully updated application'})
     
     if request.method == 'DELETE':
         application.delete()
+        return JsonResponse({'message': 'Deletion success.'})
+    
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def add_label(request):
+    user = request.user
+    if request.method == 'PUT':
+        data = JSONParser().parse(request)
+        label_name = data['label']
+        label_info =  get_labels(request, label_name)
+        new_label = Label()
+
+        if label_info:
+            new_label = Label(
+                user = user,
+                name = label_name,
+                id = label_info
+            )
+            new_label.save()
+            return JsonResponse({'message':f'Label "{label_name}" succesfully added.'})
+        else:
+            JsonResponse({'message':'Label does not exist. Make sure you have the label with the same name in your gmail account.'})
+        
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_label(request, id):
+    if request.method == 'DELETE':
+        user_label = Label.objects.select_related().filter(user=request.user)
+        label = user_label.get(id=id)
+        label.delete()
         return JsonResponse({'message': 'Deletion success.'})
