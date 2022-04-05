@@ -10,7 +10,7 @@ class UserAdmin(admin.ModelAdmin):
     search_fields = ('email', 'first_name', 'last_name')
 
 class LabelAdmin(admin.ModelAdmin):
-    list_display = ('user', 'name', 'label_type')
+    list_display = ('user', 'name', 'id')
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Label, LabelAdmin)

@@ -53,6 +53,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    senders = set()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELD = []
@@ -75,4 +76,5 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Label(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    label_type = models.CharField(max_length=20)
+    id = models.CharField(max_length=255, primary_key=True)
+    # label_type = models.CharField(max_length=20)
