@@ -55,6 +55,17 @@
 - Sugueong - #31, #32, #15  in progress
 
 ## Week 13 ##
+- April 15th submit form and 90 second video for audience choice award
+- April 19th - dry run of class presentation and demo
+- April  22nd - audience choice and broader pitch event from 2:00 PM to 5:00 PM
+	○ This mandatory and required
+- April 26th - final class presentation and demo
+- Make sure you create your video as an .mp4
+- Make sure to pull, push and merge
+- Ajay completed #23
+- Mario working on #21
+- Calvin #30
+- Jiahao #34
 
 ## Week 14 ##
 
