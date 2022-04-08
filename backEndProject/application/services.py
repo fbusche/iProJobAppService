@@ -14,7 +14,6 @@ from googleapiclient import errors
 from email.message import EmailMessage
 
 
-
 def linkedin_job_scrape(url):
     # url = "https://www.linkedin.com/jobs/view/2882566805/?alternateChannel=search&refId=oeuThlhJUGw6MCN%2Fx3qkfw%3D%3D&trackingId=j48fIHAW5AAT6qQxLYiY8A%3D%3D&trk=d_flagship3_job_details"
     response = requests.get(url)
@@ -48,23 +47,3 @@ def gmail_authenticate():
             # pickle.dump(creds, token)
             token.write(creds.to_json())
     return build('gmail', 'v1', credentials=creds)
-
-
-# def google_get_access_token(request):
-#     code = request.GET.get('code')
-#     client_id = credentials.GOOGLE_OAUTH2_CLIENT_ID
-#     client_secret = credentials.GOOGLE_OAUTH2_CLIENT_SECRET
-#     BASE_URL = 'http://localhost:8000/'
-#     GOOGLE_CALLBACK_URI = BASE_URL + 'accounts/google/callback/'
-#     state = credentials.STATE
-    
-#     token_response = requests.post(
-#         f"https://oauth2.googleapis.com/token?client_id={client_id}&client_secret={client_secret}&code={code}&grant_type=authorization_code&redirect_uri={GOOGLE_CALLBACK_URI}&state={state}")
-#     print(token_response.json())
-
-#     if not token_response.ok:
-#         raise ValidationError('google_token is invalid')
-    
-#     access_token = token_response.json().get('access_token')
-    
-#     return access_token

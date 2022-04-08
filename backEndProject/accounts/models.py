@@ -1,5 +1,5 @@
-from operator import mod
-from tabnanny import verbose
+from email.policy import default
+from jsonfield import JSONField
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, PermissionsMixin
@@ -53,7 +53,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    senders = set()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELD = []

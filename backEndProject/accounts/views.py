@@ -57,9 +57,9 @@ def profile_eidt(request): # will merge with profile def later
         return JsonResponse({'message':'SUCCESFULLY_UPDATED_USER', 'user':UserSerializer(user).data})
 
 
-def get_crednetials(request):
-    scope = "https://www.googleapis.com/auth/gmail.readonly"
-    url = api_url + ('&scope=' + scope)
-    print(url)
+# def get_crednetials(request):
+#     scope = "https://www.googleapis.com/auth/gmail.readonly"
+#     url = api_url + ('&scope=' + scope)
+#     print(url)
 
-    return HttpResponse('good')
+#     return HttpResponse('good')
