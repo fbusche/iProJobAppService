@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views, gmailapi, quickstart
+from . import views, gmailapi
 
 urlpatterns = [
     path('job/', views.application),
@@ -8,5 +8,6 @@ urlpatterns = [
     path('labels/', gmailapi.get_labels),
     path('labels/add/', views.add_label),
     path('labels/delete/<int:id>', views.delete_label),
-    path('notification/', gmailapi.gmail_push),
+    path('notification/', gmailapi.get_new_mails),
+    path('newmails/', views.new_mail_checking)
 ]

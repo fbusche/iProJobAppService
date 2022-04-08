@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_crontab',
 ]
 
 SITE_ID = 1

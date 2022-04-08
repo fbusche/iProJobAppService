@@ -1,4 +1,5 @@
-import re
+import email
+import re, json
 
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -9,10 +10,10 @@ from rest_framework.parsers import JSONParser
 
 from accounts.serializers import UserSerializer
 from accounts.models import Label
-from .models import Application, Status
+from .models import Application, Company, Status
 from .services import linkedin_job_scrape
 from .serializers import ApplicationSerializer
-from .gmailapi import get_labels
+from .gmailapi import get_labels, get_new_mails
 
 # Create your views here.
 
@@ -31,9 +32,15 @@ def add_application(request):
 
         url = data['url']
         job_info = linkedin_job_scrape(url)
-
+        
+        try:
+            company = Company.objects.get(name=job_info['company'])
+        except:
+            company = Company(name=job_info['company'])
+            company.save()
+        
         application = Application(
-            company = job_info['company'],
+            company = company,
             position = job_info['position'],
             location = job_info['location'],
             status = Status.objects.get(id=1),
@@ -63,6 +70,11 @@ def edit_application(request, id):
         company_email = data.get('company_email', None)
 
         if company != None:
+            try:
+                company = Company.objects.get(name=company)
+            except:
+                company = new_company = Company(name=company)
+                new_company.save()
             application.company = company
         if position != None:
             application.position = position
@@ -75,10 +87,10 @@ def edit_application(request, id):
         if note != None:
             application.note = note
         if company_email != None:
-            application.company_email = company_email
-            company = re.search('(?<=@).*(?=\.)', company_email).group(0)
-            user.senders.add(company)
-            user.save()
+            company = application.company
+            company_email = re.search('(?<=@).*(?=\.)', company_email).group(0)
+            company.company_email = company_email
+            company.save()
         application.save()
 
         return JsonResponse({'application':ApplicationSerializer(application).data, 'message':'Succesfully updated application'})
@@ -117,3 +129,25 @@ def delete_label(request, id):
         label = user_label.get(id=id)
         label.delete()
         return JsonResponse({'message': 'Deletion success.'})
+
+@permission_classes([IsAuthenticated])
+def new_mail_checking(request):
+    user = request.user
+    q = 'is:unread'
+
+    applied_companies = Application.objects.select_related().filter(status=2).values_list('company__company_email')
+    email_list = list(applied_companies)
+    for email in email_list:
+        if email[0] != '':
+            q += f' from:{email[0]}'
+    
+    print(q)
+    
+    new = get_new_mails(request, q)
+    new_messages = new.get('messages', [])
+    total = new['resultSizeEstimate']
+
+    if total > 1:
+        return JsonResponse({'message':f'New {total} follow-ups are waiting for you! Update your application status.'})
+    else:
+        return JsonResponse({'new messages':new_messages, 'total':total})
