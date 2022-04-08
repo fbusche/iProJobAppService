@@ -1,6 +1,7 @@
+from csv import list_dialects
 from django.contrib import admin
 
-from .models import Application, Status
+from .models import Application, Company, Status
 
 # Register your models here.
 
@@ -14,7 +15,12 @@ class StatusAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'is_default', 'created_by')
     list_filter = ('created_by', 'is_default')
 
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ('name', 'company_email')
+    search_fields = ('name',)
+
 
 
 admin.site.register(Application, ApplicationAdmin)
 admin.site.register(Status, StatusAdmin)
+admin.site.register(Company, CompanyAdmin)

@@ -1,5 +1,6 @@
 from statistics import mode
 from django.db import models
+from django.forms import CharField
 
 from accounts.models import User
 
@@ -12,15 +13,26 @@ class Status(models.Model):
     def __str__(self):
         return self.name
 
+class Company(models.Model):
+    name = models.CharField(max_length=255)
+    company_email = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.name
+
 class Application(models.Model):
-    company = models.CharField(max_length=255)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    # company = models.CharField(max_length=255)
     position = models.CharField(max_length=255)
     location = models.CharField(max_length=255) # should convert to PlainLocation Feild later
-    company_email = models.CharField(max_length=255, null=True, blank=True)
+    # company_email = models.CharField(max_length=255, null=True, blank=True)
     date_created = models.DateField(auto_now_add=True)
     last_updated = models.DateField(auto_now=True)
     status = models.ForeignKey(Status, on_delete=models.PROTECT, null=True)
     job_post = models.URLField(null=True)
     note = models.TextField(null=True, blank=True)
     applicant = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+
+
 
