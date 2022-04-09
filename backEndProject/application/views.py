@@ -1,5 +1,5 @@
-import email
-import re, json
+from datetime import datetime
+import re, json, os, datetime
 
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -10,10 +10,11 @@ from rest_framework.parsers import JSONParser
 
 from accounts.serializers import UserSerializer
 from accounts.models import Label
+
 from .models import Application, Company, Status
 from .services import linkedin_job_scrape
 from .serializers import ApplicationSerializer
-from .gmailapi import get_labels, get_new_mails
+from .gmailapi import get_labels, get_new_mails, new_mail_detail
 
 # Create your views here.
 
@@ -130,9 +131,9 @@ def delete_label(request, id):
         label.delete()
         return JsonResponse({'message': 'Deletion success.'})
 
+
 @permission_classes([IsAuthenticated])
 def new_mail_checking(request):
-    user = request.user
     q = 'is:unread'
 
     applied_companies = Application.objects.select_related().filter(status=2).values_list('company__company_email')
@@ -141,13 +142,18 @@ def new_mail_checking(request):
         if email[0] != '':
             q += f' from:{email[0]}'
     
-    print(q)
-    
-    new = get_new_mails(request, q)
+    new = get_new_mails(q)
     new_messages = new.get('messages', [])
     total = new['resultSizeEstimate']
 
     if total > 1:
+        print(f'New {total} follow-ups are waiting for you! Update your application status. {datetime.datetime.now()}')
         return JsonResponse({'message':f'New {total} follow-ups are waiting for you! Update your application status.'})
     else:
-        return JsonResponse({'new messages':new_messages, 'total':total})
+        new_message_info = new_mail_detail(new_messages[0]['id'])
+        email = new_message_info['payload']['headers'][0]['value']
+        # print(re.search('(?<=@).*(?=\.)', email).group(0))
+        company = Company.objects.get(company_email=re.search('(?<=@).*(?=\.)', email).group(0))
+        print(f'Check new message from {company.name}! {datetime.datetime.now()}')
+        return JsonResponse({'meesage':f'Check new message from {company.name}!'})
+
