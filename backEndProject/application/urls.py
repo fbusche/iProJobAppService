@@ -4,7 +4,7 @@ from . import views, gmailapi
 urlpatterns = [
     path('job/', views.application),
     path('addjob/', views.add_application),
-    path('editjob/<int:id>/', views.edit_application),
+    path('job/<int:id>/', views.edit_application),
     path('labels/', gmailapi.get_labels),
     path('labels/add/', views.add_label),
     path('labels/delete/<int:id>', views.delete_label),

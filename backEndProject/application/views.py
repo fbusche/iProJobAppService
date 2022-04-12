@@ -3,6 +3,7 @@ import re, json, os, datetime
 
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.db.models import Q
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes, api_view
@@ -50,7 +51,7 @@ def add_application(request):
         )
         application.save()
 
-        return JsonResponse({'application': ApplicationSerializer(application).data, 'user':UserSerializer(user).data, 'message':'done'})
+        return JsonResponse({"application": ApplicationSerializer(application).data, "user":UserSerializer(user).data, "message":"done"})
 
 @api_view(['PUT', 'DELETE'])
 @permission_classes([IsAuthenticated])
@@ -58,6 +59,9 @@ def edit_application(request, id):
     user = request.user
     applications = Application.objects.select_related().filter(applicant=user)
     application = applications.get(id=id)
+
+    if request.method == 'GET':
+        return JsonResponse({'Application info':ApplicationSerializer(application).data})
 
     if request.method == 'PUT':
         data = JSONParser().parse(request)
@@ -70,34 +74,36 @@ def edit_application(request, id):
         note = data.get('note', None)
         company_email = data.get('company_email', None)
 
-        if company != None:
+        if company != None and company != "":
             try:
                 company = Company.objects.get(name=company)
             except:
                 company = new_company = Company(name=company)
                 new_company.save()
             application.company = company
-        if position != None:
+        if position != None and position != "":
             application.position = position
-        if location != None:
+        if location != None and location != "":
             application.location = location
-        if status != None:
+        if status != None and status != "":
             application.status = Status.objects.get(name=status)
-        if job_post != None:
+        if job_post != None and job_post != "":
             application.job_post = job_post
-        if note != None:
+        if note != None and note != "":
             application.note = note
-        if company_email != None:
+        if company_email != None and company_email != "":
             company = application.company
             company_email = re.search('(?<=@).*(?=\.)', company_email).group(0)
             company.company_email = company_email
             company.save()
         application.save()
 
+        print({'application':ApplicationSerializer(application).data, 'message':'Succesfully updated application'})
         return JsonResponse({'application':ApplicationSerializer(application).data, 'message':'Succesfully updated application'})
     
     if request.method == 'DELETE':
         application.delete()
+        print({'message': 'Deletion success.'})
         return JsonResponse({'message': 'Deletion success.'})
     
 @api_view(['PUT'])
@@ -136,20 +142,25 @@ def delete_label(request, id):
 def new_mail_checking(request):
     q = 'is:unread'
 
-    applied_companies = Application.objects.select_related().filter(status=2).values_list('company__company_email')
+    applied_companies = Application.objects.select_related().filter(Q(status=2) | Q(status=3)).values_list('company__company_email')
     email_list = list(applied_companies)
+    print(email_list)
     for email in email_list:
         if email[0] != '':
             q += f' from:{email[0]}'
     
+    if q == 'is:unread':
+        return JsonResponse({'message':'There is no new message'})
+
     new = get_new_mails(q)
     new_messages = new.get('messages', [])
     total = new['resultSizeEstimate']
 
-    if total > 1:
+    if total > 1 and len(q.split()) > 2:
         print(f'New {total} follow-ups are waiting for you! Update your application status. {datetime.datetime.now()}')
         return JsonResponse({'message':f'New {total} follow-ups are waiting for you! Update your application status.'})
     else:
+        # print(new_messages)
         new_message_info = new_mail_detail(new_messages[0]['id'])
         email = new_message_info['payload']['headers'][0]['value']
         # print(re.search('(?<=@).*(?=\.)', email).group(0))
