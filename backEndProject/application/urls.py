@@ -2,7 +2,7 @@ from django.urls import path
 from . import views, gmailapi
 
 urlpatterns = [
-    path('job/', views.application),
+    path('job/', views.application, name='trackerboard'),
     path('addjob/', views.add_application),
     path('job/<int:id>/', views.edit_application),
     path('labels/', gmailapi.get_labels),

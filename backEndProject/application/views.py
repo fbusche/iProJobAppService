@@ -10,7 +10,7 @@ from rest_framework.decorators import permission_classes, api_view
 from rest_framework.parsers import JSONParser
 
 from accounts.serializers import UserSerializer
-from accounts.models import Label
+from accounts.models import User, Label
 
 from .models import Application, Company, Status
 from .services import linkedin_job_scrape
@@ -140,6 +140,9 @@ def delete_label(request, id):
 
 @permission_classes([IsAuthenticated])
 def new_mail_checking(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'message':'Please login first'})
+        
     q = 'is:unread'
 
     applied_companies = Application.objects.select_related().filter(Q(status=2) | Q(status=3)).values_list('company__company_email')

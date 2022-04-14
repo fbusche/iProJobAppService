@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>profile-page</title>
+    <link rel="stylesheet" href="{% static 'css/navigation.css' %}">
+    <!-- boxicon -->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        .a2 {
+            font-size: 20px;
+            text-decoration: none;
+
+        }
+
+        H3 {
+            margin: 20px auto;
+            width: 400px;
+            height: 30px;
+            background-color: turquoise;
+            text-align: center;
+            color: white;
+        }
+
+        .ix {
+            float: left;
+        }
+
+        .a3 {
+            font-size: 20px;
+            margin-top: 60px;
+            margin-left: 10px;
+
+        }
+
+        .JA {
+            font-size: 20px;
+            margin-left: 30px;
+            margin-top: 60px;
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            text-align: center;
+            float: left;
+            border: solid turquoise;
+
+        }
+
+        .Int {
+            font-size: 20px;
+            margin-top: 60px;
+            margin-left: 150px;
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            text-align: center;
+            float: left;
+            border: solid turquoise;
+
+        }
+
+        .JO {
+            font-size: 20px;
+            margin-top: 60px;
+            margin-left: 150px;
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            text-align: center;
+            float: left;
+            border: solid turquoise;
+
+        }
+
+
+
+
+        .ed {
+            font-size: 20px;
+            position: absolute;
+            bottom: 0;
+            right: 20px;
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo_content">
+            <div class="logo">
+                <i class='bx bx-search-alt'></i>
+                <div class="logo_name">JobTrackerApp</div>
+            </div>
+            <i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav_list">
+            <li>
+                <a href="#">
+                    <i class='bx bx-home-alt-2'></i>
+                    <span class="links_name">Homepage</span>
+                </a>
+                <span class="tooltip">Homepage</span>
+            </li>
+
+
+            <li>
+                <a href="profile.html">
+                    <i class='bx bx-user'></i>
+                    <span class="links_name">Profile</span>
+                </a>
+                <span class="tooltip">Profile</span>
+            </li>
+
+
+            <li>
+                <a href="tracker board.html">
+                    <i class='bx bx-chalkboard'></i>
+                    <span class="links_name"> Tracker Board</span>
+
+                </a>
+                <span class="tooltip">Tracker Board</span>
+            </li>
+
+
+            <li>
+                <a href="login.html">
+                    <i class='bx bx-log-out'></i>
+                    <span class="links_name">Sign out</span>
+                </a>
+                <span class="tooltip">Sign out</span>
+            </li>
+
+            <li>
+                <a href="profile-edit.html">
+                    <i class='bx bx-cog'></i>
+                    <span class="links_name">Profile Settings</span>
+                </a>
+                <span class="tooltip">Profile Settings</span>
+            </li>
+
+
+
+        </ul>
+    </div>
+
+    <div class="home_content">
+        <div class="text">
+            JobTrackerApp
+        </div>
+    </div>
+
+    <script>
+        let btn = document.querySelector("#btn");
+        let sidebar = document.querySelector(".sidebar");
+
+        btn.onclick = function () {
+            sidebar.classList.toggle("active");
+        }
+
+
+    </script>
+
+    <body>
+
+        <H3>Profile</H3>
+
+
+        <div class="a3">
+            <p>
+                <label class="la1">&nbsp &nbsp &nbsp &nbsp &nbsp Name: &nbsp</label> {{ user.first_name }} {{ user.last_name }} 
+
+            </p>
+
+            <p>
+                <label class="la3">&nbsp &nbsp &nbsp &nbsp &nbsp Email: &nbsp </label> {{ user }}
+            </p>
+
+            <p>
+                <label class="la4">&nbsp &nbsp &nbsp &nbsp &nbsp Year: &nbsp </label> {{ user.school_year }}
+            </p>
+
+            <p>
+                <label class="la5">&nbsp &nbsp &nbsp &nbsp &nbsp Age: &nbsp </label> {{ user.age }}
+            </p>
+
+
+        </div>
+
+
+        <p class="JA">Applied: <br>
+            {{ applied }}</p>
+        <p class="Int">Interviewed: {{ interviwed }}</p>
+        <p class="JO">Job offers: {{ offered }}</p>
+
+
+    </body>
+
+</html>

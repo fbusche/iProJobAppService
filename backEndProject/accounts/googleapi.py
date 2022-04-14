@@ -2,7 +2,7 @@ from django.forms import ValidationError
 import requests
 
 from django.http import JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib.auth import login, logout
 
 from rest_framework import status
@@ -86,6 +86,7 @@ def google_callback(request):
         accept_json = accept.json()
         accept_json.pop('user', None)
         login(request, user)
+        # return render(request, 'application/trackerBoard.html')
         return JsonResponse(accept_json, {'user':UserSerializer(request.user).data})
     except:
         # user not registered yet
@@ -102,6 +103,7 @@ def google_callback(request):
         user.last_name = profile_data['last_name']
         user.save()
         login(request, user)
+        # return render(request, 'application/trackerBoard.html')
         return JsonResponse({'accept_json':accept_json})
 
 class GoogleLogin(SocialLoginView):
