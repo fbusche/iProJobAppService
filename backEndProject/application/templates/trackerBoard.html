@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 
 <head>
     <meta charset="UTF-8">
@@ -54,7 +55,7 @@
             margin-top: 60px;
             margin-left: 150px;
             width: 900px;
-            height: 150px;
+            height: fit-content;
             background-color: white;
             float: left;
             border: solid turquoise;
@@ -74,7 +75,7 @@
         </div>
         <ul class="nav_list">
             <li>
-                <a href="#">
+                <a href="{% url 'home' %}">
                     <i class='bx bx-home-alt-2'></i>
                     <span class="links_name">Homepage</span>
                 </a>
@@ -83,7 +84,7 @@
 
 
             <li>
-                <a href="profile.html">
+                <a href="{% url 'profile' %}">
                     <i class='bx bx-user'></i>
                     <span class="links_name">Profile</span>
                 </a>
@@ -91,7 +92,7 @@
             </li>
 
             <li>
-                <a href="tracker board.html">
+                <a href="{% url 'trackerboard' %}">
                     <i class='bx bx-chalkboard'></i>
                     <span class="links_name"> Tracker Board</span>
 
@@ -101,7 +102,7 @@
 
 
             <li>
-                <a href="login.html">
+                <a href="{% url 'logout' %}">
                     <i class='bx bx-log-out'></i>
                     <span class="links_name">Sign out</span>
                 </a>
@@ -109,22 +110,16 @@
             </li>
 
             <li>
-                <a href="profile-edit.html">
+                <a href="{% url 'edit_view' %}">
                     <i class='bx bx-cog'></i>
-                    <span class="links_name">Profile Settings</span>
+                    <span class="links_name">Profile edit</span>
                 </a>
-                <span class="tooltip">Profile Settings</span>
+                <span class="tooltip">Profile edit</span>
             </li>
 
 
 
         </ul>
-    </div>
-
-    <div class="home_content">
-        <div class="text">
-            JobTrackerApp
-        </div>
     </div>
 
     <script>
@@ -139,16 +134,18 @@
     </script>
     <div>
         <H3>Tracker board</H3>
-        <p class="box">Company:{{ Company name }} Status:{{ status }} Apply date: {{ Apply date }} <br>Job details:</p>
-        <p class="box">Company:{{ Company name }} Status:{{ status }} Apply date: {{ Apply date }} <br>Job details:</p>
-        <p class="box">Company:{{ Company name }} Status:{{ status }} Apply date: {{ Apply date }} <br>Job details:</p>
-        <p class="box">Company:{{ Company name }} Status:{{ status }} Apply date: {{ Apply date }} <br>Job details:</p>
-        <p class="box">Company:{{ Company name }} Status:{{ status }} Apply date: {{ Apply date }} <br>Job details:</p>
-        <p class="box">Company:{{ Company name }} Status:{{ status }} Apply date: {{ Apply date }} <br>Job details:</p>
-        <p class="box">Company:{{ Company name }} Status:{{ status }} Apply date: {{ Apply date }} <br>Job details:</p>
-        <p class="box">Company:{{ Company name }} Status:{{ status }} Apply date: {{ Apply date }} <br>Job details:</p>
-        <p class="box">Company:{{ Company name }} Status:{{ status }} Apply date: {{ Apply date }} <br>Job details:</p>
-        <p class="box">Company:{{ Company name }} Status:{{ status }} Apply date: {{ Apply date }} <br>Job details:</p>
+        {% for application in applications %}
+            <p class="box">
+                <b>Position:</b> {{ application.position }} <br>
+                <b>Company</b>: {{ application.company }} <br>
+                <b>Location</b>: {{ application.location }} <br>
+                <b>Status</b>: {{ application.status }} <br>
+                <b>Last updated</b>: {{ application.last_updated }} <br>
+                {% if application.note %}
+                    <b>Note</b>: {{ application.note }}
+                {% endif %}
+            </p>
+        {% endfor %}
     </div>
 
 </html>

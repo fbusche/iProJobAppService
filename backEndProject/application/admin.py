@@ -12,8 +12,8 @@ class ApplicationAdmin(admin.ModelAdmin):
     ordering = ('date_created', 'last_updated')
 
 class StatusAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'is_default', 'created_by')
-    list_filter = ('created_by', 'is_default')
+    list_display = ('name', 'is_default', 'created_by')
+    list_filter = ('name', 'created_by', 'is_default')
 
 class CompanyAdmin(admin.ModelAdmin):
     list_display = ('name', 'company_email')

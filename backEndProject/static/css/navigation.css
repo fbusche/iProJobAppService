@@ -154,7 +154,7 @@ body{
     left: 78px;
     width: calc(100% - 78px);
     transition: all 0.5s ease;
-
+    padding-left: 250px;
 }
 
 .home_content .text{

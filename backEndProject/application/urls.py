@@ -9,5 +9,5 @@ urlpatterns = [
     path('labels/add/', views.add_label),
     path('labels/delete/<int:id>', views.delete_label),
     path('notification/', gmailapi.get_new_mails),
-    path('newmails/', views.new_mail_checking)
+    path('newmails/', views.new_mail_checking, name='home')
 ]

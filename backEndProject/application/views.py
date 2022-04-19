@@ -23,7 +23,7 @@ from .gmailapi import get_labels, get_new_mails, new_mail_detail
 def application(request):
     if request.method == 'GET':
         applications = Application.objects.select_related().filter(applicant=request.user)
-        return JsonResponse({'application':ApplicationSerializer(applications, many=True).data})
+        return render(request, 'trackerBoard.html', {'applications':applications})
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
@@ -152,8 +152,11 @@ def new_mail_checking(request):
         if email[0] != '':
             q += f' from:{email[0]}'
     
+    message = ''
+    
     if q == 'is:unread':
-        return JsonResponse({'message':'There is no new message'})
+        message += 'There is no new message.'
+        # return JsonResponse({'message':'There is no new message'})
 
     new = get_new_mails(q)
     new_messages = new.get('messages', [])
@@ -161,13 +164,20 @@ def new_mail_checking(request):
 
     if total > 1 and len(q.split()) > 2:
         print(f'New {total} follow-ups are waiting for you! Update your application status. {datetime.datetime.now()}')
-        return JsonResponse({'message':f'New {total} follow-ups are waiting for you! Update your application status.'})
-    else:
+        message += f'New {total} follow-ups are waiting for you! Update your application status.'
+        # return JsonResponse({'message':f'New {total} follow-ups are waiting for you! Update your application status.'})
+    elif total == 1:
         # print(new_messages)
         new_message_info = new_mail_detail(new_messages[0]['id'])
         email = new_message_info['payload']['headers'][0]['value']
         # print(re.search('(?<=@).*(?=\.)', email).group(0))
         company = Company.objects.get(company_email=re.search('(?<=@).*(?=\.)', email).group(0))
-        print(f'Check new message from {company.name}! {datetime.datetime.now()}')
-        return JsonResponse({'meesage':f'Check new message from {company.name}!'})
+        # print(f'Check new message from {company.name}! {datetime.datetime.now()}')
+        message += f'Check new message from {company.name}!'
+        # return JsonResponse({'meesage':f'Check new message from {company.name}!'})
+    
+    if message == '':
+        message = 'No update for today. Apply for new oppotunities!'
+    
+    return render(request, 'home.html', {'user': request.user, 'message':message})
 

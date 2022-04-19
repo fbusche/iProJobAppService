@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 
 <head>
     <meta charset="UTF-8">
@@ -38,9 +39,9 @@
 
         .JA {
             font-size: 20px;
-            margin-left: 30px;
+            margin-left: 150px;
             margin-top: 60px;
-            width: 100px;
+            width: fit-content;
             height: 100px;
             background-color: white;
             text-align: center;
@@ -53,7 +54,7 @@
             font-size: 20px;
             margin-top: 60px;
             margin-left: 150px;
-            width: 100px;
+            width: fit-content;
             height: 100px;
             background-color: white;
             text-align: center;
@@ -66,7 +67,7 @@
             font-size: 20px;
             margin-top: 60px;
             margin-left: 150px;
-            width: 100px;
+            width: fit-content;
             height: 100px;
             background-color: white;
             text-align: center;
@@ -83,6 +84,11 @@
             position: absolute;
             bottom: 0;
             right: 20px;
+        }
+
+        .info {
+            margin-left: 150px;
+        }
     </style>
 </head>
 
@@ -97,7 +103,7 @@
         </div>
         <ul class="nav_list">
             <li>
-                <a href="#">
+                <a href="{% url 'home' %}">
                     <i class='bx bx-home-alt-2'></i>
                     <span class="links_name">Homepage</span>
                 </a>
@@ -106,16 +112,15 @@
 
 
             <li>
-                <a href="profile.html">
+                <a href="{% url 'profile' %}">
                     <i class='bx bx-user'></i>
                     <span class="links_name">Profile</span>
                 </a>
                 <span class="tooltip">Profile</span>
             </li>
 
-
             <li>
-                <a href="tracker board.html">
+                <a href="{% url 'trackerboard' %}">
                     <i class='bx bx-chalkboard'></i>
                     <span class="links_name"> Tracker Board</span>
 
@@ -125,7 +130,7 @@
 
 
             <li>
-                <a href="login.html">
+                <a href="{% url 'google_login' %}">
                     <i class='bx bx-log-out'></i>
                     <span class="links_name">Sign out</span>
                 </a>
@@ -133,7 +138,7 @@
             </li>
 
             <li>
-                <a href="profile-edit.html">
+                <a href="{% url 'edit_view' %}">
                     <i class='bx bx-cog'></i>
                     <span class="links_name">Profile Settings</span>
                 </a>
@@ -146,9 +151,6 @@
     </div>
 
     <div class="home_content">
-        <div class="text">
-            JobTrackerApp
-        </div>
     </div>
 
     <script>
@@ -169,30 +171,39 @@
 
         <div class="a3">
             <p>
-                <label class="la1">&nbsp &nbsp &nbsp &nbsp &nbsp Name: &nbsp</label> {{ user.first_name }} {{ user.last_name }} 
+                <label class="info">
+                    <b>Name:</b> &nbsp</label> {{ user.first_name }} {{ user.last_name }}
 
             </p>
 
             <p>
-                <label class="la3">&nbsp &nbsp &nbsp &nbsp &nbsp Email: &nbsp </label> {{ user }}
+                <label class="info">
+                    <b>Email:</b> &nbsp </label> {{ user }}
             </p>
 
             <p>
-                <label class="la4">&nbsp &nbsp &nbsp &nbsp &nbsp Year: &nbsp </label> {{ user.school_year }}
+                <label class="info">
+                    <b>Phone number:</b> &nbsp </label> {{ user.phone }}
+            </p>
+
+
+            <p>
+                <label class="info">
+                    <b>School year:</b> &nbsp </label> {{ user.school_year }}
             </p>
 
             <p>
-                <label class="la5">&nbsp &nbsp &nbsp &nbsp &nbsp Age: &nbsp </label> {{ user.age }}
+                <label class="info">
+                    <b>Age:</b> &nbsp </label> {{ user.age }}
             </p>
 
 
         </div>
 
 
-        <p class="JA">Applied: <br>
-            {{ applied }}</p>
-        <p class="Int">Interviewed: {{ interviwed }}</p>
-        <p class="JO">Job offers: {{ offered }}</p>
+        <p class="JA"> &nbsp <b>Applied:</b> &nbsp <br> {{ applied }}</p>
+        <p class="Int"> &nbsp <b>Interviewed:</b> &nbsp <br> {{ interviwed }}</p>
+        <p class="JO"> &nbsp <b>Job offers:</b> &nbsp <br> {{ offered }}</p>
 
 
     </body>

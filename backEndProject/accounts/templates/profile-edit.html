@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -76,9 +76,16 @@
         }
 
         .upload {
-            margin-top: 40px;
-            margin-left: 20px;
+            margin-left: 280px;
 
+        }
+
+        .button {
+            margin-top: 30px;
+        }
+
+        .info {
+            margin-left: 150px;
         }
     </style>
 </head>
@@ -94,7 +101,7 @@
         </div>
         <ul class="nav_list">
             <li>
-                <a href="#">
+                <a href="{% url 'home' %}">
                     <i class='bx bx-home-alt-2'></i>
                     <span class="links_name">Homepage</span>
                 </a>
@@ -103,7 +110,7 @@
 
 
             <li>
-                <a href="profile.html">
+                <a href="{% url 'profile' %}">
                     <i class='bx bx-user'></i>
                     <span class="links_name">Profile</span>
                 </a>
@@ -111,7 +118,7 @@
             </li>
 
             <li>
-                <a href="tracker board.html">
+                <a href="{% url 'trackerboard' %}">
                     <i class='bx bx-chalkboard'></i>
                     <span class="links_name"> Tracker Board</span>
 
@@ -119,8 +126,9 @@
                 <span class="tooltip">Tracker Board</span>
             </li>
 
+
             <li>
-                <a href="login.html">
+                <a href="{% url 'logout' %}">
                     <i class='bx bx-log-out'></i>
                     <span class="links_name">Sign out</span>
                 </a>
@@ -128,11 +136,11 @@
             </li>
 
             <li>
-                <a href="#">
+                <a href="{% url 'edit_view' %}">
                     <i class='bx bx-cog'></i>
-                    <span class="links_name">Profile Settings</span>
+                    <span class="links_name">Profile edit</span>
                 </a>
-                <span class="tooltip">Profile Settings</span>
+                <span class="tooltip">Profile edit</span>
             </li>
 
 
@@ -140,11 +148,7 @@
         </ul>
     </div>
 
-    <div class="home_content">
-        <div class="text">
-            JobTrackerApp
-        </div>
-    </div>
+    
 
     <script>
         let btn = document.querySelector("#btn");
@@ -158,57 +162,47 @@
     </script>
 
     <body>
-        <form action="/accounts/user/" method="post">
+        <form action="{% url 'profile_edit' %}" method="PUT">
+            {% csrf_token %}
             <div class="a2">
-
-
-                <H3>Profile</H3>
-                <div class="ix"> <img
-                        src="https://img1.baidu.com/it/u=3092625331,3016860992&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
-                        alt="" title="picture" width="350" height="300"> </div>
-
-
+                <H3>Profile Edit</H3>
                 <div class="a3">
                     <p>
-                        <label class="la1">First name: &nbsp </label><input type="text"
-                            name="first_name" value={{user.first_name}} size="30" maxlength="2000" />
-
+                        <label class="info"><b>First name:</b> &nbsp</label>
+                        <input id="first_name" type="text" name="first_name" size="37"/>
                     </p>
 
                     <p>
-                        <label class="la2">First name: &nbsp </label><input type="text"
-                            name="last_name" value={{user.last_name}} size="30" maxlength="2000" />
-
+                        <label class="info"><b>Last name:</b> &nbsp </label>
+                        <input id="last_name" type="text" name="last_name" size="37"/>
                     </p>
 
                     <p>
-                        <label class="la3">Email: &nbsp </label> {{ user }}
+                        <label class="info"><b>Email:</b>&nbsp</label> {{ user }}
                     </p>
 
                     <p>
-                        <label class="la2">First name: &nbsp </label><input type="text"
-                            name="phone" value={{user.phone}} size="30" maxlength="2000" />
-
+                        <label class="info"><b>Phone number:</b>&nbsp</label>
+                        <input id="phone" type="text" name="phone" size="30"/>
                     </p>
 
                     <p>
-                        <label class="la4">Year: &nbsp </label><input type="text"
-                            name="school_year" value={{user.school_year}} size="30" maxlength="2000" />
+                        <label class="info"><b>School year:</b>&nbsp</label>
+                        <input id="school_year" type="text" name="school_year" size="35"/>
                     </p>
 
                     <p>
-                        <label class="la5">Age: &nbsp </label><input type="text"
-                            name="age" value={{user.age}} size="30" maxlength="2000" />
+                        <label class="info"><b>Age:</b>&nbsp</label>
+                        <input id="age" type="text" name="age" size="47" />
                     </p>
 
+                    <a class="upload" href="{% url 'profile' %}">
+                        <input class="button" type="submit" value="Save" />
+                    </a>
 
                 </div>
+                
 
-                <a href="{% url 'trackerboard' %}"><input type="submit" value="Submit" size="" maxlength="" /></a>
-<!-- 
-                <p class="JA">Jobs Applied: {{ jobsapplied }}</p>
-                <p class="Int">Interviews: {{ interviews }}</p>
-                <p class="JO">Job offers: {{ joboffers }}</p> -->
         </form>
     </body>
 

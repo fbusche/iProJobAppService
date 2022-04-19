@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.forms import ValidationError
 import requests
 
@@ -86,8 +87,9 @@ def google_callback(request):
         accept_json = accept.json()
         accept_json.pop('user', None)
         login(request, user)
-        # return render(request, 'application/trackerBoard.html')
-        return JsonResponse(accept_json, {'user':UserSerializer(request.user).data})
+        return redirect('/application/newmails')
+        # return render(request, 'home.html', context)
+        # return JsonResponse(accept_json, {'user':UserSerializer(request.user).data})
     except:
         # user not registered yet
         data = {'access_token': access_token, 'code': code}
@@ -103,8 +105,8 @@ def google_callback(request):
         user.last_name = profile_data['last_name']
         user.save()
         login(request, user)
-        # return render(request, 'application/trackerBoard.html')
-        return JsonResponse({'accept_json':accept_json})
+        return redirect('/application/job/')
+        # return JsonResponse({'accept_json':accept_json})
 
 class GoogleLogin(SocialLoginView):
     adapter_class = google_view.GoogleOAuth2Adapter
@@ -114,5 +116,5 @@ class GoogleLogin(SocialLoginView):
 @permission_classes([IsAuthenticated])
 def signout(request):
         logout(request)
-        return JsonResponse({'message':'successfully_signed_out'}, status=200)
+        return redirect('/accounts/login/')
 

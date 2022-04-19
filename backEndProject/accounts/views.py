@@ -3,6 +3,8 @@ import os
 from tokenize import Token
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes, api_view
@@ -21,30 +23,35 @@ api_url = 'https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&incl
 
 
 def login(request):
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated or request.user.is_admin:
         return render(request, 'login.html')
     else:
-        return render(request, 'application/trackerBoard.html')
+        return render(request, 'trackerBoard.html')
 
 
 @permission_classes([IsAuthenticated])
 def profile(request):
-    if request.method == 'GET':
-        # token = Token.objects.get(user=user)
-        user = request.user
-        applications = Application.objects.filter(applicant=user)
-        applied = applications.filter(status__name = "applied").count()
-        interviewd = applications.filter(status__name = "interviewed").count()
-        offered = applications.filter(status__name = "offer").count()
-        return render(request, 'profile.html', {'user': user, 'applied': applied, 'interviwed':interviewd, 'offered':offered})
-        # return JsonResponse({'user': UserSerializer(user).data, 'token': token.key})
+    # token = Token.objects.get(user=user)
+    user = request.user
+    applications = Application.objects.filter(applicant=user)
+    applied = applications.filter(status__name = "applied").count()
+    interviewd = applications.filter(status__name = "interviewed").count()
+    offered = applications.filter(status__name = "offer").count()
+    return render(request, 'profile.html', {'user': user, 'applied': applied, 'interviwed':interviewd, 'offered':offered})
+    # return JsonResponse({'user': UserSerializer(user).data, 'token': token.key})
+
+@permission_classes([IsAuthenticated])
+def edit_view(request):
+    user = request.user
+    return render(request, 'profile-edit.html')
 
 # @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
-def profile_eidt(request): # will merge with profile def later
+def profile_edit(request): # will merge with profile def later
+    # if request.method == 'PUT':
     user = request.user
     # data = JSONParser().parse(request)
-
+    print(request.POST)
     phone = request.POST.get('phone')
     first_name = request.POST.get('first_name')
     last_name = request.POST.get('last_name')
@@ -66,5 +73,6 @@ def profile_eidt(request): # will merge with profile def later
         user.gpa = gpa
     user.save()
 
-    return render(request, 'profile-edit.html')
+    return HttpResponse('done')
+    return render(request, 'profile.html')
     # return JsonResponse({'message':'SUCCESFULLY_UPDATED_USER', 'user':UserSerializer(user).data})
