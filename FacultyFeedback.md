@@ -68,5 +68,14 @@
 - Jiahao #34
 
 ## Week 14 ##
+- Every team member needs to complete the peer review survey before the end of class - https://forms.gle/UFVs9smkmLVf7KRZ8
+- I like the graphics for talking about the problem
+- Why not a graphic for the solution to the problem slide
+- Compact format for personas and nice talk track for them
+- Other team member of group F?  Using Sugyeong's name would be more effective
+- Cool that you got Google auth working
+- Nice clean left nav UX
+- Are scraping LinkedIn?
+- Final presentation template: https://github.com/mschray/IPro497Sample/blob/main/Course%20Content/Final%20Presentation%20Template.pptx
 
 ## Week 15 ##
