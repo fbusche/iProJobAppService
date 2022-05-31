@@ -1,10 +1,7 @@
-from statistics import mode
 from django.db import models
-from django.forms import CharField
 
 from accounts.models import User
 
-# Create your models here.
 class Status(models.Model):
     name = models.CharField(max_length=30)
     is_default = models.BooleanField(default=False)
@@ -22,15 +19,14 @@ class Company(models.Model):
 
 class Application(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    # company = models.CharField(max_length=255)
     position = models.CharField(max_length=255)
-    location = models.CharField(max_length=255) # should convert to PlainLocation Feild later
-    # company_email = models.CharField(max_length=255, null=True, blank=True)
+    location = models.CharField(max_length=255)
     date_created = models.DateField(auto_now_add=True)
     last_updated = models.DateField(auto_now=True)
     status = models.ForeignKey(Status, on_delete=models.PROTECT, null=True)
     job_post = models.URLField(null=True)
     note = models.TextField(null=True, blank=True)
+    company_mail = models.EmailField(null=True, blank=True)
     applicant = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 

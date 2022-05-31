@@ -42,7 +42,6 @@ def gmail_authenticate():
         else:
             credential_file = os.path.join(os.path.dirname(__file__), '../settings/client_secret.json')
             flow = InstalledAppFlow.from_client_secrets_file(credential_file, SCOPES)
-            # flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
             creds = flow.run_local_server(port=1234)
         # save the credentials for the next run
         with open("token.pickle", "wb") as token:

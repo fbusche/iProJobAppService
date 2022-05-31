@@ -46,9 +46,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(null=True, blank=True, max_length=10, validators=[MinLengthValidator(10)])
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    age = models.IntegerField(null=True, blank=True)
-    school_year = models.CharField(null=True, blank=True, max_length=20)
-    gpa = models.FloatField(null=True, blank=True)
     is_admin = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -71,9 +68,3 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def has_module_perms(self, app_label):
         return True
-
-class Label(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    id = models.CharField(max_length=255, primary_key=True)
-    # label_type = models.CharField(max_length=20)

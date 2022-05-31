@@ -1,9 +1,6 @@
-from csv import list_dialects
 from django.contrib import admin
 
 from .models import Application, Company, Status
-
-# Register your models here.
 
 class ApplicationAdmin(admin.ModelAdmin):
     list_display = ('id', 'applicant', 'company', 'position', 'location', 'status', 'date_created', 'last_updated', 'job_post',)
@@ -18,7 +15,6 @@ class StatusAdmin(admin.ModelAdmin):
 class CompanyAdmin(admin.ModelAdmin):
     list_display = ('name', 'company_email')
     search_fields = ('name',)
-
 
 
 admin.site.register(Application, ApplicationAdmin)

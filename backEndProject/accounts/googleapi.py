@@ -1,9 +1,8 @@
-from multiprocessing import context
 from django.forms import ValidationError
 import requests
 
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.contrib.auth import login, logout
 
 from rest_framework import status
@@ -19,7 +18,6 @@ from json.decoder import JSONDecodeError
 
 from settings import credentials
 from .models import User
-from .serializers import UserSerializer
 
 BASE_URL = 'http://localhost:8000/'
 GOOGLE_CALLBACK_URI = BASE_URL + 'accounts/google/callback/'
@@ -43,19 +41,16 @@ def google_callback(request):
     if error is not None:
         raise JSONDecodeError(error)
     access_token = token_req_json.get('access_token')
-    # print(f'access toekn: {access_token}')
     id_token = token_req_json.get('id_token')
 
     # get user google email
     email_req = requests.get(
-        # f"https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={access_token}")
         f"https://www.googleapis.com/oauth2/v1/tokeninfo?id_token={id_token}")
     email_req_status = email_req.status_code
     if email_req_status != 200:
         return JsonResponse({'err_msg': 'failed to get email'}, status=status.HTTP_400_BAD_REQUEST)
     email_req_json = email_req.json()
     email = email_req_json.get('email')
-    # print(email)
 
     # get user info
     user_info_response = requests.get(
@@ -65,9 +60,7 @@ def google_callback(request):
         })
     if not user_info_response.ok:
         raise ValidationError('Failed to obtain user info from Google.')
-    # print(user_info_response)
     user_info = user_info_response.json()
-    # print(user_info)
     
     profile_data = {
         'first_name': user_info.get('given_name', ''),
@@ -88,8 +81,6 @@ def google_callback(request):
         accept_json.pop('user', None)
         login(request, user)
         return redirect('/application/newmails')
-        # return render(request, 'home.html', context)
-        # return JsonResponse(accept_json, {'user':UserSerializer(request.user).data})
     except:
         # user not registered yet
         data = {'access_token': access_token, 'code': code}
@@ -106,7 +97,6 @@ def google_callback(request):
         user.save()
         login(request, user)
         return redirect('/application/job/')
-        # return JsonResponse({'accept_json':accept_json})
 
 class GoogleLogin(SocialLoginView):
     adapter_class = google_view.GoogleOAuth2Adapter

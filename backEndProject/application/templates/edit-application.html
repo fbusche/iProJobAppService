@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=, initial-scale=1.0">
-    <title>trackerboard</title>
+    <title>profile-page-edit</title>
     <link rel="stylesheet" href="{% static 'css/navigation.css' %}">
     <!-- boxicon -->
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
@@ -37,6 +36,19 @@
 
         }
 
+        .JA {
+            font-size: 20px;
+            margin-left: 300px;
+            margin-top: 60px;
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            text-align: center;
+            float: left;
+            border: solid turquoise;
+
+        }
+
         .Int {
             font-size: 20px;
             margin-top: 60px;
@@ -50,32 +62,35 @@
 
         }
 
-        .box {
+        .JO {
             font-size: 20px;
             margin-top: 60px;
             margin-left: 150px;
-            width: 900px;
-            height: fit-content;
+            width: 100px;
+            height: 100px;
             background-color: white;
+            text-align: center;
             float: left;
             border: solid turquoise;
 
         }
 
-        .greet, .message {
-            margin-left: 150px;
+        .upload {
+            margin-left: 280px;
+
         }
 
-        h4 {
-            margin-left: 150px;
+        .button {
+            margin-top: 30px;
         }
 
-        .url {
-            margin-top: 2x;
+        .form-content {
             margin-left: 150px;
+            font-size: 20px;
         }
     </style>
 </head>
+
 <body>
     <div class="sidebar">
         <div class="logo_content">
@@ -141,25 +156,60 @@
         btn.onclick = function () {
             sidebar.classList.toggle("active");
         }
+
+
     </script>
+    <div>
+        <h3>Edit Application</h3>
 
-    <h3>Job Application Tracker</h3>
-    <h4 class="greet"> Hello, {{ user.first_name }}! </h4>
-    {% if q %}
-        <div class="message"><a href="http://gmail.com/#search/{{q}}" target="_blank">{{ message }}</a></div>
-    {% else %}
-        <div class="message">{{ message }}</div>
-    {% endif %}
-    <br>
-    <h4>Do you have a new application?</h4>
-    <form action="{% url 'addjob' %}" method="post">
-        {% csrf_token %}
-        <input class="url" id="url" name="url" type="text" size="100" value="Please put the job description URL from LinkedIn!" />
-    <input type="submit" value="Save">
-    </form>
-    
+        <form class="form-content" action="{% url 'editjob' application.id %}" method="post">
+            {% csrf_token %}
+            <p>
+                <label for="position"><b>Position:&nbsp </b></label>
+                <input type="text" name="position" id="position" class="position" size="48" value="{{ application.position }}">
+            </p>
+            
+            <p>
+                <label for="company"><b>Company:&nbsp</b></label>
+                <input type="text" name="company" id="company" class="company" size="45" value="{{ application.company }}">
+            </p>
+            
+            <p>
+                <label for="location"><b>Location:&nbsp</b></label>
+                <input type="text" name="location" id="location" class="location" size="47" value="{{ application.location }}">
+            </p>
+            
+            <p>
+                <label for="company_email"><b>Company email:&nbsp</b></label>
+                <input type="text" name="company_email" id="company_email" class="company_email" size="35" value="{{ application.company_email }}">
+            </p>
 
+            <p>
+                <label for="status"><b>Status:&nbsp</b></label>
+                <select name="status" id="status">
+                    {% for s in status %}
+                        {% if s == application.status %}
+                            <option value={{s}} selected>{{s}}</option>
+                        {% else %}
+                            <option value={{s}}>{{s}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </p>
+            
+            <p>
+                <label for="job_post"><b>Job posting URL:&nbsp</b></label>
+                <input type="text" name="job_post" id="job_post" class="job_post" size="35" value="{{ application.job_post }}">
+            </p>
+            
+            <p>
+                <label for="note"><b>Note:&nbsp</b></label>
+                <input type="text" name="note" id="note" class="note" size="53" value="{{ application.note }}">
+            </p>
+            
+            <input type="submit" value="Save">
+        </form>
+    </div>
 
 </body>
-
 </html>

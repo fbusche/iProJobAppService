@@ -59,7 +59,10 @@
             background-color: white;
             float: left;
             border: solid turquoise;
-
+        }
+        
+        .edit-btn, .del-btn {
+            width: 50px;
         }
     </style>
 </head>
@@ -139,11 +142,21 @@
                 <b>Position:</b> {{ application.position }} <br>
                 <b>Company</b>: {{ application.company }} <br>
                 <b>Location</b>: {{ application.location }} <br>
+                {% if application.company_mail %}
+                    <b>Company email</b>: {{ application.company_mail }} <br>
+                {% endif %}
                 <b>Status</b>: {{ application.status }} <br>
                 <b>Last updated</b>: {{ application.last_updated }} <br>
                 {% if application.note %}
-                    <b>Note</b>: {{ application.note }}
+                    <b>Note</b>: {{ application.note }} <br>
                 {% endif %}
+                <a href="{% url 'jobdetail' application.id %}">
+                    <input class="edit-btn" type="button" value="Edit">
+                </a>
+
+                <a href="{% url 'deljob' application.id %}">
+                    <input class="del-btn" type="button" value="Delete">
+                </a>
             </p>
         {% endfor %}
     </div>
