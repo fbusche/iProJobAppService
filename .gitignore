@@ -6,6 +6,7 @@ job application tracker.zip
 token.pickle
 package-lock.json
 package.json
+db.sqlite3
 
 #folders
 node_modules/
