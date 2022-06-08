@@ -1,0 +1,9 @@
+# files
+settings/
+test/
+backEndProject/local_settings.py
+*.pyc
+db.sqlite3
+__pycache__
+token.pickle
+.env

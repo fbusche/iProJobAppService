@@ -1,9 +1,14 @@
+# files
 .DS_Store
-node_modules/
-env/
 .env
-test/
-settings/
 local_settings.py
 job application tracker.zip
 token.pickle
+package-lock.json
+package.json
+
+#folders
+node_modules/
+env/
+test/
+settings/
